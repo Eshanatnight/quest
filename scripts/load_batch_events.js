@@ -181,11 +181,16 @@ export default function () {
     let batch_requests = JSON.stringify(generateEvents(events));
     let response = http.post(url, batch_requests, params);
 
+	let a = response.status;
+	let b = response.body;
+	let c = response.error;
+
     if (
         !check(response, {
             'status code MUST be 200': (res) => res.status == 200,
         })
     ) {
-        exec.test.abort("Failed to send event.. status != 200");
+		let error = `Failed to send event.. status != 200, status: ${a}, body: ${b}, error: ${c}`
+        exec.test.abort(error);
     }
 }
